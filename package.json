@@ -17,7 +17,8 @@
   ],
   "scripts": {
     "build": "turbo build",
-    "dev": "turbo dev --filter=!docs --filter=!@repo/cms --filter=!studio",
+    "dev": "turbo dev --filter=!docs --filter=!@repo/cms --filter=!studio --filter=!email --filter=!storybook",
+    "dev:reset": "node scripts/kill-ports.mjs && turbo dev --filter=!docs --filter=!@repo/cms --filter=!studio --filter=!email --filter=!storybook --ui=stream",
     "dev:full": "turbo dev",
     "dev:cms": "turbo dev --filter=@repo/cms",
     "dev:studio": "turbo dev --filter=studio",

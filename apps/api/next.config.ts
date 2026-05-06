@@ -1,9 +1,15 @@
 import { config, withAnalyzer } from "@repo/next-config";
 import { withLogging, withSentry } from "@repo/observability/next-config";
 import type { NextConfig } from "next";
+import path from "node:path";
 import { env } from "@/env";
 
 let nextConfig: NextConfig = withLogging(config);
+
+(nextConfig as any).turbopack = {
+  ...(nextConfig as any).turbopack,
+  root: path.resolve(__dirname, "..", ".."),
+};
 
 if (env.VERCEL) {
   nextConfig = withSentry(nextConfig);
