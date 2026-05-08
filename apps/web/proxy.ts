@@ -49,22 +49,6 @@ const arcjetMiddleware = async (request: NextRequest) => {
 // renders `(home)/page.tsx` instead of `[locale]/about/page.tsx`). The
 // `app` and `api` apps still use Clerk via their own proxy.ts files.
 const proxy = async (request: NextRequest) => {
-  const { pathname } = request.nextUrl;
-
-  // `rewriteDefault` keeps English content unprefixed for most routes, but
-  // marketing users still expect both `/` and `/en` entry points to work.
-  if (pathname === "/") {
-    return NextResponse.redirect(new URL("/en", request.url));
-  }
-
-  if (pathname === "/en") {
-    return NextResponse.rewrite(new URL("/", request.url));
-  }
-
-  if (pathname.startsWith("/en/")) {
-    return NextResponse.rewrite(new URL(pathname.slice(3), request.url));
-  }
-
   // i18n must run first; its rewrite/redirect short-circuits the chain so
   // non-locale-prefixed paths like `/about` resolve to `/[locale]/about`.
   const i18nResponse = internationalizationMiddleware(request);
